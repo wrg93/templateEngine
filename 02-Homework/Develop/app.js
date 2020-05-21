@@ -10,97 +10,36 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const employees = [];
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-const inquirer = require("inquirer");
-const fs = require("fs");
-const util = require("util");
 
-const writeFileAsync = util.promisify(fs.writeFile);
+AddNewEmployee = () => {
 
-function promptUser(){
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "job",
-      message: "What is your position at the company?",
-      choices: [
-          "Manager",
-          "Engineer",
-          "Intern"
-      ]
-    },
-    {
-        type:"input",
-        name:"email",
-        message: "What is your email address?"  
-    },
-    {
-        type:"input",
-        name:"URL",
-        message:"What is the URL of your project?"
-    },
-    {
-      type: "input",
-      name: "title",
-      message: "What is your project title?"
-    },
-    {
-      type: "input",
-      name: "description",
-      message: "Please give a short description of your project"
-    },
+  inquirer.prompt([
     {
       type: "list",
-      message: "What kind of license would you like to use?",
-      name: "license",
-      choices: [
-          "MIT",
-          "GPL3",
-          "AGPL"
-      ]
-    },
-    {
-      type: "input",
-      name: "installation",
-      message: "What command should be run to install dependencies?"
-    },
-    {
-      type: "input",
-      name: "tests",
-      message: "What command should be run to to run tests?"
-    },
-    {
-       type: "input",
-       name: "repo",
-       message: "What does the user need to know about the repo?"
-    },
-    {
-       type:"input",
-       name:"contributions",
-       message:"What does the user need to know about contributing to the repo?"
+      message: "Which employee would you like to employee?",
+      choices: ["Manager", "Engineer", "Intern", "I'm finished"],
+      name: "EmployeeEntry"
     }
-  ]);
+  ])
+  .then(answer => {
+    switch(answer.EmployeeEntry) {
+      case "Manager":
+        MakeManager();
+        break;
+      case "Engineer":
+        MakeEngineer();
+        break;
+      case "Intern":
+        MakeIntern();
+        break;
+      case "I'm finished":
+        CreateHTML();
+        break;
+
+    }
+  })
 }
 
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
