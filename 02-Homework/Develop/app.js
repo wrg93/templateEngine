@@ -67,7 +67,42 @@ MakeManager = () => {
       name: "officeNumber"
     }
   ])
-    .then(answers => {
-      let employee = new Manager(answer.name, answer.email, answer.id, answer.officeNumber)
+    .then(answer => {
+      let employee = new Manager(answer.name, answer.email, answer.id, answer.officeNumber);
+      employees.push(employee);
+
+      AddNewEmployee();
     })
+}
+
+//Make Intern Constructor
+MakeIntern = () => {
+  inquirer.prompt([
+    {
+      type: "Input",
+      message: "What is their name?",
+      name: "name"
+    },
+    {
+      type: "Input",
+      message: "What is their email address?",
+      name: "email"
+    },
+    {
+      type: "Input",
+      message: "What is their ID number?",
+      name: "id"
+    },
+    {
+      type: "Input",
+      message: "Which school do they attend?",
+      name: "school"
+    }
+  ])
+    .then(answer => {
+      let employee = new Intern(answer.name, answer.id, answer.email, answer.school);
+      employees.push(employee);
+
+      AddNewEmployee();
+    }) 
 }
