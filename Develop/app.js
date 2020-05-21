@@ -10,21 +10,21 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const employees = [];
+const workers = [];
 
-//first inquiry which leads to a switch of constructors
-AddNewEmployee = () => {
+//first inquiry which leads to a switch of functions
+AddNewWorker = () => {
 
   inquirer.prompt([
     {
       type: "list",
-      message: "Which employee would you like to employee?",
-      choices: ["Manager", "Engineer", "Intern", "I'm finished"],
-      name: "EmployeeEntry"
+      message: "Which worker would you like to add?",
+      choices: ["Manager", "Engineer", "Intern", "None"],
+      name: "WorkerEntry"
     }
   ])
   .then(answer => {
-    switch(answer.EmployeeEntry) {
+    switch(answer.WorkerEntry) {
       case "Manager":
         MakeManager();
         break;
@@ -34,8 +34,8 @@ AddNewEmployee = () => {
       case "Intern":
         MakeIntern();
         break;
-      case "I'm finished":
-        CreateHTML();
+      case "None":
+        CreateDoc();
         break;
 
     }
@@ -43,7 +43,7 @@ AddNewEmployee = () => {
 }
 
 
-//MakeManager constructor
+//MakeManager function
 MakeManager = () => {
   inquirer.prompt([
     {
@@ -68,14 +68,15 @@ MakeManager = () => {
     }
   ])
     .then(answer => {
-      let employee = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
-      employees.push(employee);
+      //based on answers pass constructor
+      let worker = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
+      workers.push(worker);
 
-      AddNewEmployee();
+      AddNewWorker();
     })
 }
 
-//Make Intern Constructor
+//Make Intern
 MakeIntern = () => {
   inquirer.prompt([
     {
@@ -100,10 +101,11 @@ MakeIntern = () => {
     }
   ])
     .then(answer => {
-      let employee = new Intern(answer.name, answer.id, answer.email, answer.school);
-      employees.push(employee);
+      //based on answers pass constructor
+      let worker = new Intern(answer.name, answer.id, answer.email, answer.school);
+      workers.push(worker);
 
-      AddNewEmployee();
+      AddNewWorker();
     }) 
 }
 
@@ -132,19 +134,22 @@ MakeEngineer = () => {
     }
   ])
     .then(answer => {
-      let employee = new Engineer(answer.name, answer.id, answer.email, answer.github);
-      employees.push(employee);
+      //based on answers pass constructor
+      let worker = new Engineer(answer.name, answer.id, answer.email, answer.github);
+      workers.push(worker);
 
-      AddNewEmployee();
+      AddNewWorker();
     }) 
 }
 
-CreateHTML = () => {
-  console.log(employees);
-  var html = render(employees);
-  fs.writeFile(outputPath, html, err => {
+//Create HTML dog based on collected array. 
+CreateDoc = () => {
+  console.log(workers);
+  var doc = render (workers);
+  fs.writeFile(outputPath, doc, err => {
     if (err) console.log (err);
   })
 }
 
-AddNewEmployee();
+//initiates process
+AddNewWorker();
