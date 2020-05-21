@@ -100,9 +100,51 @@ MakeIntern = () => {
     }
   ])
     .then(answer => {
-      let employee = new Intern(answer.name, answer.id, answer.email, answer.school);
+      let employee = new Intern(answer.name, answer.email, answer.id, answer.school);
       employees.push(employee);
 
       AddNewEmployee();
     }) 
 }
+
+//Make Engineer Constructor
+MakeEngineer = () => {
+  inquirer.prompt([
+    {
+      type: "Input",
+      message: "What is their name?",
+      name: "name"
+    },
+    {
+      type: "Input",
+      message: "What is their email address?",
+      name: "email"
+    },
+    {
+      type: "Input",
+      message: "What is their ID number?",
+      name: "id"
+    },
+    {
+      type: "Input",
+      message: "Which is their GitHub Username?",
+      name: "github"
+    }
+  ])
+    .then(answer => {
+      let employee = new Employee(answer.name, answer.email, answer.id, answer.school);
+      employees.push(employee);
+
+      AddNewEmployee();
+    }) 
+}
+
+CreateHTML = () => {
+  console.log(employees);
+  var html = render(employees);
+  fs.writeFile(outputPath, html, err => {
+    if (err) console.log (err);
+  })
+}
+
+AddNewEmployee();
