@@ -68,7 +68,7 @@ MakeManager = () => {
     }
   ])
     .then(answer => {
-      let employee = new Manager(answer.name, answer.email, answer.id, answer.officeNumber);
+      let employee = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
       employees.push(employee);
 
       AddNewEmployee();
@@ -100,7 +100,7 @@ MakeIntern = () => {
     }
   ])
     .then(answer => {
-      let employee = new Intern(answer.name, answer.email, answer.id, answer.school);
+      let employee = new Intern(answer.name, answer.id, answer.email, answer.school);
       employees.push(employee);
 
       AddNewEmployee();
@@ -132,7 +132,7 @@ MakeEngineer = () => {
     }
   ])
     .then(answer => {
-      let employee = new Engineer(answer.name, answer.email, answer.id, answer.school);
+      let employee = new Engineer(answer.name, answer.id, answer.email, answer.github);
       employees.push(employee);
 
       AddNewEmployee();
