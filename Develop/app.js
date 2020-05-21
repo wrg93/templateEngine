@@ -1,6 +1,7 @@
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const Employee = require("./lib/Employee");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
@@ -10,16 +11,54 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+
 const employees = [];
 
+firstQuestion = () => {
+inquirer.prompt([
+  {
+    type: "list",
+    message: "Would you like to add an Employee?",
+    choices: ["Yes", "No"],
+    name: "firstQuestion"
+  },
+])
+.then(answer =>{
+  switch(answer.firstQuestion){
+    case "Yes":
+    AddNewEmployee();
+    break;
+    case "No":
+      CreateHTML();
+      break;
+  }
+})
+}
+
+firstQuestion();
 //first inquiry which leads to a switch of constructors
 AddNewEmployee = () => {
 
   inquirer.prompt([
     {
+      type: "Input",
+      message: "What is their name?",
+      name: "name"
+    },
+    {
+      type: "Input",
+      message: "What is their email address?",
+      name: "email"
+    },
+    {
+      type: "Input",
+      message: "What is their ID number?",
+      name: "id"
+    },
+    {
       type: "list",
       message: "Which employee would you like to employee?",
-      choices: ["Manager", "Engineer", "Intern", "I'm finished"],
+      choices: ["Manager", "Engineer", "Intern"],
       name: "EmployeeEntry"
     }
   ])
@@ -34,9 +73,6 @@ AddNewEmployee = () => {
       case "Intern":
         MakeIntern();
         break;
-      case "I'm finished":
-        CreateHTML();
-        break;
 
     }
   })
@@ -48,51 +84,21 @@ MakeManager = () => {
   inquirer.prompt([
     {
       type: "Input",
-      message: "What is their name?",
-      name: "name"
-    },
-    {
-      type: "Input",
-      message: "What is their email address?",
-      name: "email"
-    },
-    {
-      type: "Input",
-      message: "What is their ID number?",
-      name: "id"
-    },
-    {
-      type: "Input",
       message: "Which office do they manage?",
       name: "officeNumber"
     }
   ])
     .then(answer => {
-      let employee = new Manager(answer.name, answer.id, answer.email, answer.officeNumber);
+    let employee = new Manager(answer.officeNumber);
       employees.push(employee);
 
-      AddNewEmployee();
+      firstQuestion();
     })
 }
 
 //Make Intern Constructor
-MakeIntern = () => {
+MakeIntern = (employee => {
   inquirer.prompt([
-    {
-      type: "Input",
-      message: "What is their name?",
-      name: "name"
-    },
-    {
-      type: "Input",
-      message: "What is their email address?",
-      name: "email"
-    },
-    {
-      type: "Input",
-      message: "What is their ID number?",
-      name: "id"
-    },
     {
       type: "Input",
       message: "Which school do they attend?",
@@ -100,31 +106,17 @@ MakeIntern = () => {
     }
   ])
     .then(answer => {
-      let employee = new Intern(answer.name, answer.id, answer.email, answer.school);
+      employee = new Intern(answer.name, answer.id, answer.email, answer.school);
       employees.push(employee);
 
-      AddNewEmployee();
+      firstQuestion();
     }) 
-}
+})
 
 //Make Engineer Constructor
-MakeEngineer = () => {
+MakeEngineer = (employee => {
   inquirer.prompt([
-    {
-      type: "Input",
-      message: "What is their name?",
-      name: "name"
-    },
-    {
-      type: "Input",
-      message: "What is their email address?",
-      name: "email"
-    },
-    {
-      type: "Input",
-      message: "What is their ID number?",
-      name: "id"
-    },
+
     {
       type: "Input",
       message: "Which is their GitHub Username?",
@@ -132,12 +124,12 @@ MakeEngineer = () => {
     }
   ])
     .then(answer => {
-      let employee = new Engineer(answer.name, answer.id, answer.email, answer.github);
+      employee = new Engineer(answer.name, answer.id, answer.email, answer.github);
       employees.push(employee);
 
-      AddNewEmployee();
+      firstQuestion();
     }) 
-}
+})
 
 CreateHTML = () => {
   console.log(employees);
@@ -147,4 +139,3 @@ CreateHTML = () => {
   })
 }
 
-AddNewEmployee();
