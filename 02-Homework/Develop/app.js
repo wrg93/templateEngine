@@ -12,7 +12,7 @@ const render = require("./lib/htmlRenderer");
 
 const employees = [];
 
-
+//first inquiry which leads to a switch of constructors
 AddNewEmployee = () => {
 
   inquirer.prompt([
@@ -43,3 +43,31 @@ AddNewEmployee = () => {
 }
 
 
+//MakeManager constructor
+MakeManager = () => {
+  inquirer.prompt([
+    {
+      type: "Input",
+      message: "What is their name?",
+      name: "name"
+    },
+    {
+      type: "Input",
+      message: "What is their email address?",
+      name: "email"
+    },
+    {
+      type: "Input",
+      message: "What is their ID number?",
+      name: "id"
+    },
+    {
+      type: "Input",
+      message: "Which office do they manage?",
+      name: "officeNumber"
+    }
+  ])
+    .then(answers => {
+      let employee = new Manager(answer.name, answer.email, answer.id, answer.officeNumber)
+    })
+}
